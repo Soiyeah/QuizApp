@@ -175,8 +175,10 @@ public class QuizDbHelper extends SQLiteOpenHelper
         cv.put(UserTable.COLUMN_USERNAME, user.getUsername());
         cv.put(UserTable.COLUMN_EMAIL, user.getEmail());
         cv.put(UserTable.COLUMN_PASSWORD, user.getPassword());
+        cv.put(UserTable.COLUMN_HIGHSCORE, user.getHighscore());
         db.insert(UserTable.TABLE_NAME, null, cv);     //Insert to the DB
     }
+
 
     public boolean checkUserExist(String username) // check whether the username already exist
     {
@@ -184,16 +186,56 @@ public class QuizDbHelper extends SQLiteOpenHelper
 
         Cursor c = db.rawQuery("SELECT * FROM " + UserTable.TABLE_NAME + " WHERE " + UserTable.COLUMN_USERNAME + " = " + "'" +  username + "'" , null);
 
-        if (c != null && c.moveToFirst()&& c.getCount()>0) // if the username is in the table
+        if (c != null && c.moveToFirst() && c.getCount() > 0) // if the username is in the user table
         {
             c.close();
             return true;
         }
-        else
+        else    // if username not found in the user table
         {
             c.close();
             return false;
         }
     }
+
+    public User getUser(String username)
+    {
+        db = getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + UserTable.TABLE_NAME + " WHERE " + UserTable.COLUMN_USERNAME + " = " + "'" +  username + "'" , null);
+
+        if (c.moveToFirst()) // Move to the 1st row of the question table
+        {
+            User user = new User();
+            user.setUid(c.getInt(c.getColumnIndex(UserTable._ID)));
+            user.setUsername(c.getString(c.getColumnIndex(UserTable.COLUMN_USERNAME)));
+            user.setEmail(c.getString(c.getColumnIndex(UserTable.COLUMN_EMAIL)));
+            user.setPassword(c.getString(c.getColumnIndex(UserTable.COLUMN_PASSWORD)));
+            user.setHighscore(c.getInt(c.getColumnIndex(UserTable.COLUMN_HIGHSCORE)));
+
+            user.displayUser(); // display user details in logcat (for testing only)
+
+            c.close();
+            return user;
+        }
+        else
+        {
+            Log.d("User", " User not found!");
+            c.close();
+            return null;
+        }
+    }
+
+    public void setHighScore(String username, int highScore)
+    {
+        db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String strFilter = UserTable.COLUMN_USERNAME +"='"+ username+"'";   // to be used in the db.update() method
+
+        cv.put(UserTable.COLUMN_HIGHSCORE, highScore);                      // set new HighScore
+        db.update(UserTable.TABLE_NAME,cv,strFilter,null);         //update db
+
+    }
+
 
 }

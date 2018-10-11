@@ -1,5 +1,7 @@
 package com.github.sliit.quizapp;
 
+import android.util.Log;
+
 public class User
 {
 
@@ -16,6 +18,20 @@ public class User
         this.email = email;
         this.password = password;
         this.highscore = highscore;
+    }
+
+
+    public User()   // default constructor
+    {
+
+    }
+
+    public void displayUser()
+    {
+        Log.d("Username :", this.username);
+        Log.d("Email :", this.email);
+        Log.d("password :", this.password);
+        Log.d("highscore :", this.highscore+"");
     }
 
 
