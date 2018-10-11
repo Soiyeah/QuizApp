@@ -3,7 +3,6 @@ package com.github.sliit.quizapp;
 public class Question
 {
 
-
     private String question;
     private String option1;
     private String option2;

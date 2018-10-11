@@ -68,12 +68,13 @@ public class QuizActivity extends AppCompatActivity
 
         tv_questionCount.setText("Total qz :"+questionCountTotal);
 
+/*
         dbHelper.setHighScore("admin",12);
         dbHelper.getUser("admin");
 
         dbHelper.setHighScore("admin",25);
         dbHelper.getUser("admin");
-
+*/
     }
 
 
