@@ -15,13 +15,15 @@
 
         <activity android:name=".RegisterActivity"
                   android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
