@@ -24,7 +24,7 @@ import java.util.Locale;
 public class QuizActivity extends AppCompatActivity
 {
 
-    private static long countDownInMillis = 30000;  // 30 SECONDS
+    private long countDownInMillis = 30000;  // 30 SECONDS
 
     private int marksPerQuestion = 10;
     private static int request_code = 1;

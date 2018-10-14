@@ -248,7 +248,7 @@ public class QuizDbHelper extends SQLiteOpenHelper
         int highscore = 0;
         Cursor c = db.rawQuery("SELECT "+UserTable.COLUMN_HIGHSCORE+" FROM " + UserTable.TABLE_NAME + " WHERE " + UserTable.COLUMN_USERNAME + " = " + "'" +  username + "'" , null);
 
-        if (c.moveToFirst()) // Move to the 1st row of the question table
+        if (c.moveToFirst())
         {
             highscore = c.getInt(c.getColumnIndex(UserTable.COLUMN_HIGHSCORE));
 
@@ -256,6 +256,24 @@ public class QuizDbHelper extends SQLiteOpenHelper
         c.close();
         return highscore;
     }
+
+    public int getOverallHighScore()
+    {
+        db = getReadableDatabase();
+        int Overallhighscore = 0;
+
+        Cursor c = db.rawQuery("SELECT MAX("+UserTable.COLUMN_HIGHSCORE+") AS \"OverallHighScore\" FROM " + UserTable.TABLE_NAME , null);
+
+        if (c.moveToFirst())
+        {
+
+            Overallhighscore = c.getInt(c.getColumnIndex("OverallHighScore"));
+
+        }
+        c.close();
+        return Overallhighscore;
+    }
+
 
     public void setHighScore(String username, int highScore)
     {

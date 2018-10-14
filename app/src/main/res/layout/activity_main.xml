@@ -37,16 +37,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_highscore" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_overall_highscore" />
 
     <TextView
-        android:id="@+id/txt_highscore"
+        android:id="@+id/txt_overall_highscore"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="170"
+        android:text="100"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"

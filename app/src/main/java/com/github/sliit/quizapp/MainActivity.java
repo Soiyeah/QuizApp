@@ -15,8 +15,10 @@ public class MainActivity extends AppCompatActivity
     private Button start_quiz_btn;
     private TextView lbl_welcome;
     private TextView lbl_your_highscore;
+    private TextView lbl_overall_highscore;
 
     private int highscore;
+    private int overallhighscore;
     private QuizDbHelper dbHelper;
 
     String username;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         start_quiz_btn = findViewById(R.id.btn_start_quiz);
         lbl_welcome = findViewById(R.id.lbl_welcome);
         lbl_your_highscore = findViewById(R.id.txt_your_highscore);
+        lbl_overall_highscore = findViewById(R.id.txt_overall_highscore);
 
         lbl_welcome.setText("Welcome, " + username);
 
@@ -53,6 +56,9 @@ public class MainActivity extends AppCompatActivity
     {
         highscore = dbHelper.getHighScore(username);
         lbl_your_highscore.setText(highscore+"");
+
+        overallhighscore = dbHelper.getOverallHighScore();      // best high score from all the users
+        lbl_overall_highscore.setText(overallhighscore+"");
     }
 
     @Override
