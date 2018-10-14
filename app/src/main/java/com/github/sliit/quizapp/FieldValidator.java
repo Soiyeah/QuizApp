@@ -3,7 +3,6 @@ package com.github.sliit.quizapp;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class FieldValidator
 {
@@ -66,7 +65,7 @@ public class FieldValidator
     }
 
 
-    public boolean validatePasswordLength(EditText password)     // Check whether the password field is empty
+    public boolean validatePasswordLength(EditText password)     // Check whether the password is valid in length
     {
         if (password.getText().toString().trim().length() < 4 || password.getText().toString().trim().length() > 12)
         {

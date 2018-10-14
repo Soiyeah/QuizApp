@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btn_register;
 
     QuizDbHelper dbHelper;
-    FieldValidator validator;   // create object of FieldValidator class
+    FieldValidator validator;   // create object of FieldValidator class (To validate register form)
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -114,6 +114,21 @@ public class QuizDbHelper extends SQLiteOpenHelper
         addQuestion(q7);
         Question q8 = new Question("This is the Question 8. the answer is 4", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 4);
         addQuestion(q8);
+        Question q9 = new Question("This is the Question 9. the answer is 1", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 1);
+        addQuestion(q9);
+        Question q10 = new Question("This is the Question 10. the answer is 3", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 3);
+        addQuestion(q10);
+        Question q11 = new Question("This is the Question 11. the answer is 2", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 2);
+        addQuestion(q11);
+        Question q12 = new Question("This is the Question 12. the answer is 4", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 4);
+        addQuestion(q12);
+        Question q13 = new Question("This is the Question 13. the answer is 1", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 1);
+        addQuestion(q13);
+        Question q14 = new Question("This is the Question 14. the answer is 2", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 2);
+        addQuestion(q14);
+        Question q15 = new Question("This is the Question 15. the answer is 1", "Answer 1", "Answer 2", "Answer 3", "Answer 4", 1);
+        addQuestion(q15);
+
     }
 
     //-- ONLY CALLED WHEN APP IS INSTALLED FOR THE 1ST TIME --//
@@ -224,6 +239,22 @@ public class QuizDbHelper extends SQLiteOpenHelper
             c.close();
             return null;
         }
+    }
+
+
+    public int getHighScore(String username)
+    {
+        db = getReadableDatabase();
+        int highscore = 0;
+        Cursor c = db.rawQuery("SELECT "+UserTable.COLUMN_HIGHSCORE+" FROM " + UserTable.TABLE_NAME + " WHERE " + UserTable.COLUMN_USERNAME + " = " + "'" +  username + "'" , null);
+
+        if (c.moveToFirst()) // Move to the 1st row of the question table
+        {
+            highscore = c.getInt(c.getColumnIndex(UserTable.COLUMN_HIGHSCORE));
+
+        }
+        c.close();
+        return highscore;
     }
 
     public void setHighScore(String username, int highScore)

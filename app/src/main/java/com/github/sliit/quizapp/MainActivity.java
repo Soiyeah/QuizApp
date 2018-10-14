@@ -14,6 +14,10 @@ public class MainActivity extends AppCompatActivity
 
     private Button start_quiz_btn;
     private TextView lbl_welcome;
+    private TextView lbl_your_highscore;
+
+    private int highscore;
+    private QuizDbHelper dbHelper;
 
     String username;
 
@@ -23,13 +27,18 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new QuizDbHelper(this); // create a QuizDbHelper object
+
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
         start_quiz_btn = findViewById(R.id.btn_start_quiz);
         lbl_welcome = findViewById(R.id.lbl_welcome);
+        lbl_your_highscore = findViewById(R.id.txt_your_highscore);
 
         lbl_welcome.setText("Welcome," + username);
+
+        updateHighScoreText();
 
         start_quiz_btn.setOnClickListener(new View.OnClickListener()
         {
@@ -40,11 +49,25 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void updateHighScoreText()
+    {
+        highscore = dbHelper.getHighScore(username);
+        lbl_your_highscore.setText(highscore+"");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateHighScoreText();
+    }
 
     private void startQuiz()    // Start QuizActivity when button is clicked
     {
         Intent intent = new Intent(MainActivity.this, QuizActivity.class);
-        startActivity(intent);
+        intent.putExtra("username", username);  // pass the username to the quizActivity
+        startActivity(intent);  // Go to the quizActivity
+
     }
 
 
