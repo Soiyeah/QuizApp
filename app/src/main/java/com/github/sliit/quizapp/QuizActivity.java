@@ -84,6 +84,7 @@ public class QuizActivity extends AppCompatActivity
         Intent intent = getIntent();    // get the intent sent from MainActivity
         username = intent.getStringExtra("username");   // get the passed username
 
+        levelCounter = 1;   // start with level 1
 
         textColorDefaultRb = option1.getTextColors();
 
@@ -93,9 +94,12 @@ public class QuizActivity extends AppCompatActivity
         questionCountTotal = questionList.size();   // total number of questions in the list
         Collections.shuffle(questionList);          // Shuffle the question list
 
-        levelCounter = 1;
+        Intent intent1 = new Intent(this,LevelUpActivity.class);
+        intent1.putExtra("level",levelCounter);
+        intent1.putExtra("marksPerQuestion",marksPerQuestion);   // send marks per question for level 2 to be displayed in levelUpActivity
+        intent1.putExtra("timePerQuestion",countDownInMillis);   // send time per question for level 2 to be displayed in levelUpActivity
 
-        showNextQuestion();
+        startActivityForResult(intent1,request_code );   // start LevelUpActivity and get back confirmation when pressed continue
 
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +109,12 @@ public class QuizActivity extends AppCompatActivity
                 {
                     if (option1.isChecked() || option2.isChecked() || option3.isChecked() || option4.isChecked())  // if one of the answers is selected
                     {
+
+                        option1.setEnabled(false);  // disable radio buttons when an answer is confirmed by the user
+                        option2.setEnabled(false);
+                        option3.setEnabled(false);
+                        option4.setEnabled(false);
+
                         checkAnswer();
                     }
                     else  // if no answers are selected
@@ -115,11 +125,9 @@ public class QuizActivity extends AppCompatActivity
                 else  // if answered
                 {
 
-                    if((questionCounter % 5) == 0)  // if questionCounter is divisible by 5 ( After every 5 questions )
+                    if((questionCounter % 5) == 0 && (questionCounter != questionCountTotal))  // if questionCounter is divisible by 5 ( After every 5 questions) and not the last question
                     {
                         levelUp();  // new level
-
-                       /// radio button change after confirm fixx
                     }
                     else
                     {
@@ -150,7 +158,10 @@ public class QuizActivity extends AppCompatActivity
         option4.setTextColor(textColorDefaultRb);
         rbGroup.clearCheck();                       // clear any checked answers before moving to the next question
 
-
+        option1.setEnabled(true);   // enable radio buttons
+        option2.setEnabled(true);
+        option3.setEnabled(true);
+        option4.setEnabled(true);
 
         if (questionCounter < questionCountTotal)   // if there are any questions left in the question list
         {
@@ -241,17 +252,20 @@ public class QuizActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), "level up!", Toast.LENGTH_LONG).show();
         levelCounter++;                                   // increment levelCounter
         tv_level.setText("Level "+levelCounter);
-        //countDownInMillis = countDownInMillis - 5000;   // reduce the time per question in every new level by 5 seconds (level 1: 30sec, level 2: 25sec)
-        //marksPerQuestion = marksPerQuestion + 5;        // increase marks per question by 5 in every new level
+        countDownInMillis = countDownInMillis - 5000;   // reduce the time per question in every new level by 5 seconds (level 1: 30sec, level 2: 25sec)
+        marksPerQuestion = marksPerQuestion + 5;        // increase marks per question by 5 in every new level
 
         Intent intent = new Intent(this,LevelUpActivity.class);
         intent.putExtra("level",levelCounter);
-        startActivityForResult(intent,request_code );
+        intent.putExtra("marksPerQuestion",marksPerQuestion);   // send marks per question for level 2 to be displayed in levelUpActivity
+        intent.putExtra("timePerQuestion",countDownInMillis);   // send time per question for level 2 to be displayed in levelUpActivity
+
+        startActivityForResult(intent,request_code );   // start LevelUpActivity and get back confirmation when pressed continue
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // when user presses continue from LevelUpActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         showNextQuestion();
@@ -297,10 +311,9 @@ public class QuizActivity extends AppCompatActivity
 
     private void updateHighScore()
     {
-
-        if(score > dbHelper.getHighScore(username))
+        if(score > dbHelper.getHighScore(username)) // if the current score is higher than this users highscore
         {
-            dbHelper.setHighScore(username,score);
+            dbHelper.setHighScore(username,score);  // set current score as the highscore
         }
     }
 

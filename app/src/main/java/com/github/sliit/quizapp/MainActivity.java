@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         lbl_welcome = findViewById(R.id.lbl_welcome);
         lbl_your_highscore = findViewById(R.id.txt_your_highscore);
 
-        lbl_welcome.setText("Welcome," + username);
+        lbl_welcome.setText("Welcome, " + username);
 
         updateHighScoreText();
 
